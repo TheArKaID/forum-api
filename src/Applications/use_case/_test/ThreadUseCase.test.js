@@ -8,6 +8,7 @@ import ThreadRepository from '../../../Domains/threads/ThreadRepository.js'
 import CommentRepository from '../../../Domains/comments/CommentRepository.js'
 import ReplyRepository from '../../../Domains/replies/ReplyRepository.js'
 import ThreadUseCase from '../ThreadUseCase.js'
+import LikeRepository from '../../../Domains/likes/LikeRepository.js'
 
 describe('ThreadUseCase', () => {
     it('should orchestrating the add thread action correctly', async () => {
@@ -25,7 +26,6 @@ describe('ThreadUseCase', () => {
         /** dependency of use case */
         const mockThreadRepository = new ThreadRepository()
 
-        /** mocking needed function */
         mockThreadRepository.addThread = jest.fn(() => Promise.resolve(expectedAddedThread))
 
         /** use case instance */
@@ -77,14 +77,16 @@ describe('ThreadUseCase', () => {
         const mockThreadRepository = new ThreadRepository()
         const mockCommentRepository = new CommentRepository()
         const mockReplyRepository = new ReplyRepository()
+        const mockLikeRepository = new LikeRepository()
 
         /** mocking function */
         mockThreadRepository.getThreadById = jest.fn(() => Promise.resolve(new DetailThread(threadPayload)))
         mockCommentRepository.getCommentsByThreadId = jest.fn(() => Promise.resolve([new DetailComment(commentPayload)]))
         mockReplyRepository.getRepliesByCommentId = jest.fn(() => Promise.resolve([new DetailReply(replyPayload)]))
+        mockLikeRepository.getLikeCountByCommentId = jest.fn(() => Promise.resolve(1))
 
         /** use case instance */
-        const threadUseCase = new ThreadUseCase(mockThreadRepository, mockCommentRepository, mockReplyRepository)
+        const threadUseCase = new ThreadUseCase(mockThreadRepository, mockCommentRepository, mockReplyRepository, mockLikeRepository)
 
         const thread = await threadUseCase.getThreadById(fakeThread)
 
@@ -97,6 +99,7 @@ describe('ThreadUseCase', () => {
             comments: [
                 {
                     ...expectedDetailComment[0],
+                    likeCount: 1,
                     replies: expectedDetailReply
                 }
             ]
