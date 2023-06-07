@@ -1,0 +1,38 @@
+{
+  "name": "forum-api",
+  "version": "1.0.0",
+  "description": "Forum API of Dicoding Expert",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "start:dev": "nodemon src/app.js",
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js -i",
+    "test:watch:change": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --watch -i",
+    "test:watch": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --watchAll --coverage -i",
+    "migrate": "node-pg-migrate",
+    "migrate:test": "node-pg-migrate -f config/database/test.json"
+  },
+  "type": "module",
+  "author": "Arifia Kasastra. R",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/hapi": "^20.1.5",
+    "@hapi/jwt": "^2.0.1",
+    "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
+    "esm": "^3.2.25",
+    "instances-container": "^2.0.3",
+    "nanoid": "^3.1.23",
+    "pg": "^8.6.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.36.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "jest": "^27.0.6",
+    "node-pg-migrate": "^5.10.0",
+    "nodemon": "^2.0.22"
+  }
+}
