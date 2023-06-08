@@ -19,6 +19,8 @@ import CommentRepository from '../Domains/comments/CommentRepository.js'
 import CommentRepositoryPostgres from './repository/CommentRepositoryPostgres.js'
 import ReplyRepository from '../Domains/replies/ReplyRepository.js'
 import ReplyRepositoryPostgres from './repository/ReplyRepositoryPostgres.js'
+import LikeRepository from '../Domains/likes/LikeRepository.js'
+import LikeRepositoryPostgres from './repository/LikeRepositoryPostgres.js'
 import AuthenticationRepository from '../Domains/authentications/AuthenticationRepository.js'
 import AuthenticationRepositoryPostgres from './repository/AuthenticationRepositoryPostgres.js'
 import AuthenticationTokenManager from '../Applications/security/AuthenticationTokenManager.js'
@@ -32,6 +34,7 @@ import RefreshAuthenticationUseCase from '../Applications/use_case/RefreshAuthen
 import ThreadUseCase from '../Applications/use_case/ThreadUseCase.js'
 import CommentUseCase from '../Applications/use_case/CommentUseCase.js'
 import ReplyUseCase from '../Applications/use_case/ReplyUseCase.js'
+import LikeUseCase from '../Applications/use_case/LikeUseCase.js'
 
 // creating container
 const container = createContainer()
@@ -125,6 +128,20 @@ container.register([
                 }
             ]
         }
+    },
+    {
+        key: LikeRepository.name,
+        Class: LikeRepositoryPostgres,
+        parameter: {
+            dependencies: [
+                {
+                    concrete: pool
+                },
+                {
+                    concrete: nanoid
+                }
+            ]
+        }
     }
 ])
 
@@ -207,6 +224,9 @@ container.register([
                 },
                 {
                     internal: ReplyRepository.name
+                },
+                {
+                    internal: LikeRepository.name
                 }
             ]
         }
@@ -240,6 +260,24 @@ container.register([
                 },
                 {
                     internal: ReplyRepository.name
+                }
+            ]
+        }
+    },
+    {
+        key: LikeUseCase.name,
+        Class: LikeUseCase,
+        parameter: {
+            injectType: 'parameter',
+            dependencies: [
+                {
+                    internal: ThreadRepository.name
+                },
+                {
+                    internal: CommentRepository.name
+                },
+                {
+                    internal: LikeRepository.name
                 }
             ]
         }

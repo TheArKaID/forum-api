@@ -22,16 +22,15 @@ describe('AddUserUseCase', () => {
             fullname: useCasePayload.fullname
         })
 
-        /** creating dependency of use case */
+
         const mockUserRepository = new UserRepository()
         const mockPasswordHash = new PasswordHash()
 
-        /** mocking needed function */
         mockUserRepository.verifyAvailableUsername = jest.fn().mockImplementation(() => Promise.resolve())
         mockPasswordHash.hash = jest.fn().mockImplementation(() => Promise.resolve('encrypted_password'))
         mockUserRepository.addUser = jest.fn().mockImplementation(() => Promise.resolve(mockRegisteredUser))
 
-        /** creating use case instance */
+
         const getUserUseCase = new AddUserUseCase(mockUserRepository, mockPasswordHash)
 
         const registeredUser = await getUserUseCase.execute(useCasePayload)
