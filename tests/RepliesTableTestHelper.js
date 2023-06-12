@@ -4,7 +4,8 @@ import pool from '../src/Infrastructures/database/postgres/pool.js'
 const RepliesTableTestHelper = {
     async createReply ({ id = 'reply_id-123', commentId = 'comment_id-123', content = 'A Reply of Comment', ownerId = 'user_id-123', createdAt = new Date().toISOString() }) {
         const query = {
-            text: 'INSERT INTO replies VALUES($1, $2, $3, $4, $5)',
+            text: `INSERT INTO replies
+                    VALUES($1, $2, $3, $4, $5)`,
             values: [id, commentId, ownerId, content, createdAt]
         }
 

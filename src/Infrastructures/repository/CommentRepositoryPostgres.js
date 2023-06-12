@@ -13,7 +13,10 @@ class CommentRepositoryPostgres extends CommentRepository {
 
     async checkCommentById (commentId) {
         const query = {
-            text: 'SELECT comments.id AS id, username, created_at as date, content, is_deleted FROM comments JOIN users on owner_id = users.id WHERE comments.id = $1',
+            text: `SELECT comments.id AS id, username, created_at as date, content, is_deleted
+                    FROM comments
+                    JOIN users on owner_id = users.id
+                    WHERE comments.id = $1`,
             values: [commentId]
         }
 
@@ -29,7 +32,9 @@ class CommentRepositoryPostgres extends CommentRepository {
         const id = `comment_id-${this._generateID()}`
 
         const query = {
-            text: 'INSERT INTO comments VALUES($1, $2, $3, $4) RETURNING id, content, owner_id AS owner',
+            text: `INSERT INTO comments
+                    VALUES($1, $2, $3, $4)
+                    RETURNING id, content, owner_id AS owner`,
             values: [id, threadId, owner, content]
         }
 
@@ -57,7 +62,9 @@ class CommentRepositoryPostgres extends CommentRepository {
 
     async getCommentsByThreadId (threadId) {
         const query = {
-            text: 'SELECT comments.id AS id, username, created_at as date, content, is_deleted FROM comments JOIN users on owner_id = users.id WHERE thread_id = $1 ORDER BY date',
+            text: `SELECT comments.id AS id, username, created_at as date, content, is_deleted
+                    FROM comments JOIN users on owner_id = users.id
+                    WHERE thread_id = $1 ORDER BY date`,
             values: [threadId]
         }
         const result = await this._pool.query(query)

@@ -4,7 +4,8 @@ import pool from '../src/Infrastructures/database/postgres/pool.js'
 const CommentsTableTestHelper = {
     async createComment ({ id = 'comment_id-123', threadId = 'thread_id-123', content = 'A New Comment', ownerId = 'user_id-123', createdAt = new Date().toISOString() }) {
         const query = {
-            text: 'INSERT INTO comments VALUES($1, $2, $3, $4, $5)',
+            text: `INSERT INTO comments
+                    VALUES($1, $2, $3, $4, $5)`,
             values: [id, threadId, ownerId, content, createdAt]
         }
 

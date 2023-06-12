@@ -16,7 +16,9 @@ class ReplyRepositoryPostgres extends ReplyRepository {
         const id = `reply_id-${this._generateID()}`
 
         const query = {
-            text: 'INSERT INTO replies VALUES($1, $2, $3, $4) RETURNING id, content, owner_id AS owner',
+            text: `INSERT INTO replies
+                    VALUES($1, $2, $3, $4)
+                    RETURNING id, content, owner_id AS owner`,
             values: [id, commentId, owner, content]
         }
 
@@ -27,7 +29,10 @@ class ReplyRepositoryPostgres extends ReplyRepository {
 
     async getRepliesByCommentId (commentId) {
         const query = {
-            text: 'SELECT replies.id AS id, username, created_at as date, content, is_deleted FROM replies JOIN users on owner_id = users.id WHERE comment_id = $1 ORDER BY date',
+            text: `SELECT replies.id AS id, username, created_at as date, content, is_deleted
+                    FROM replies JOIN users on owner_id = users.id
+                    WHERE comment_id = $1
+                    ORDER BY date`,
             values: [commentId]
         }
 

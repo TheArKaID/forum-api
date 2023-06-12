@@ -23,14 +23,12 @@ const createServer = async (container) => {
         })
     })
 
-    // registrasi plugin eksternal
     await server.register([
         {
             plugin: jwt
         }
     ])
 
-    // mendefinisikan strategy autentikasi jwt
     server.auth.strategy('forumapi_jwt', 'jwt', {
         keys: process.env.ACCESS_TOKEN_KEY,
         verify: {

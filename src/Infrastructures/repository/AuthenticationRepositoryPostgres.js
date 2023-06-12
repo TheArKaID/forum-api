@@ -10,7 +10,8 @@ class AuthenticationRepositoryPostgres extends AuthenticationRepository {
 
     async generateToken (token) {
         const query = {
-            text: 'INSERT INTO authentications VALUES ($1)',
+            text: `INSERT INTO authentications
+                    VALUES ($1)`,
             values: [token]
         }
         await this._pool.query(query)

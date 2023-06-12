@@ -22,7 +22,8 @@ class LikeCommentRepositoryPostgres extends LikeCommentRepository {
         const id = `like_id-${this._generateID()}`
 
         const query = {
-            text: 'INSERT INTO likes VALUES($1, $2, $3) RETURNING id',
+            text: `INSERT INTO likes
+                    VALUES($1, $2, $3) RETURNING id`,
             values: [id, ownerId, commentId]
         }
 

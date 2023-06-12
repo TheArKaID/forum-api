@@ -2,17 +2,20 @@
 
 import { createContainer } from 'instances-container'
 
-// external agency
+import jwt from '@hapi/jwt'
 import { nanoid } from 'nanoid'
 import bcrypt from 'bcrypt'
-import jwt from '@hapi/jwt'
-import pool from './database/postgres/pool.js'
 
-// service (repository, helper, manager, etc)
-import UserRepository from '../Domains/users/UserRepository.js'
+import pool from './database/postgres/pool.js'
 import PasswordHash from '../Applications/security/PasswordHash.js'
-import UserRepositoryPostgres from './repository/UserRepositoryPostgres.js'
 import BcryptPasswordHash from './security/BcryptPasswordHash.js'
+import JwtTokenManager from './security/JwtTokenManager.js'
+
+import AuthenticationRepository from '../Domains/authentications/AuthenticationRepository.js'
+import AuthenticationRepositoryPostgres from './repository/AuthenticationRepositoryPostgres.js'
+import AuthenticationTokenManager from '../Applications/security/AuthenticationTokenManager.js'
+import UserRepository from '../Domains/users/UserRepository.js'
+import UserRepositoryPostgres from './repository/UserRepositoryPostgres.js'
 import ThreadRepository from '../Domains/threads/ThreadRepository.js'
 import ThreadRepositoryPostgres from './repository/ThreadRepositoryPostgres.js'
 import CommentRepository from '../Domains/comments/CommentRepository.js'
@@ -21,25 +24,18 @@ import ReplyRepository from '../Domains/replies/ReplyRepository.js'
 import ReplyRepositoryPostgres from './repository/ReplyRepositoryPostgres.js'
 import LikeCommentRepository from '../Domains/likeComments/LikeCommentRepository.js'
 import LikeCommentRepositoryPostgres from './repository/LikeCommentRepositoryPostgres.js'
-import AuthenticationRepository from '../Domains/authentications/AuthenticationRepository.js'
-import AuthenticationRepositoryPostgres from './repository/AuthenticationRepositoryPostgres.js'
-import AuthenticationTokenManager from '../Applications/security/AuthenticationTokenManager.js'
-import JwtTokenManager from './security/JwtTokenManager.js'
 
-// use case
-import AddUserUseCase from '../Applications/use_case/AddUserUseCase.js'
 import LoginUserUseCase from '../Applications/use_case/LoginUserUseCase.js'
 import LogoutUserUseCase from '../Applications/use_case/LogoutUserUseCase.js'
 import RefreshAuthenticationUseCase from '../Applications/use_case/RefreshAuthenticationUseCase.js'
+import AddUserUseCase from '../Applications/use_case/AddUserUseCase.js'
 import ThreadUseCase from '../Applications/use_case/ThreadUseCase.js'
 import CommentUseCase from '../Applications/use_case/CommentUseCase.js'
 import ReplyUseCase from '../Applications/use_case/ReplyUseCase.js'
 import LikeCommentUseCase from '../Applications/use_case/LikeCommentUseCase.js'
 
-// creating container
 const container = createContainer()
 
-// registering services and repository
 container.register([
     {
         key: UserRepository.name,
@@ -145,7 +141,6 @@ container.register([
     }
 ])
 
-// registering use cases
 container.register([
     {
         key: AddUserUseCase.name,

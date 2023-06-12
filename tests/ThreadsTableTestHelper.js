@@ -4,7 +4,8 @@ import pool from '../src/Infrastructures/database/postgres/pool.js'
 const ThreadsTableTestHelper = {
     async createThread ({ id = 'thread_id-123', title = 'The Title of the Thread', body = 'The Body of the Thread', ownerId = 'user_id-123', createdAt = new Date().toISOString() }) {
         const query = {
-            text: 'INSERT INTO threads VALUES($1, $2, $3, $4, $5)',
+            text: `INSERT INTO threads
+                    VALUES($1, $2, $3, $4, $5)`,
             values: [id, ownerId, title, body, createdAt]
         }
 

@@ -4,7 +4,8 @@ import pool from '../src/Infrastructures/database/postgres/pool.js'
 const LikeCommentsTableHelper = {
     async likeComment ({ id = 'like_id-123', commentId = 'comment_id-123', owner = 'user_id-123', date = new Date().toISOString() }) {
         const query = {
-            text: 'INSERT INTO likes VALUES($1, $2, $3, $4)',
+            text: `INSERT INTO likes
+                    VALUES($1, $2, $3, $4)`,
             values: [id, owner, commentId, date]
         }
 

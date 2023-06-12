@@ -15,7 +15,9 @@ class ThreadRepositoryPostgres extends ThreadRepository {
         const id = `thread_id-${this._generateID()}`
 
         const query = {
-            text: 'INSERT INTO threads VALUES($1, $2, $3, $4) RETURNING id, title, owner_id AS owner',
+            text: `INSERT INTO threads
+                    VALUES($1, $2, $3, $4)
+                    RETURNING id, title, owner_id AS owner`,
             values: [id, ownerId, title, body]
         }
 
@@ -26,7 +28,10 @@ class ThreadRepositoryPostgres extends ThreadRepository {
 
     async getThreadById (threadId) {
         const query = {
-            text: 'SELECT threads.id AS id, title, body, created_at as date, username FROM threads JOIN users on owner_id = users.id WHERE threads.id = $1',
+            text: `SELECT threads.id AS id, title, body, created_at as date, username
+                    FROM threads
+                    JOIN users on owner_id = users.id
+                    WHERE threads.id = $1`,
             values: [threadId]
         }
 
