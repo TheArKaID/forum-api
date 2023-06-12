@@ -14,7 +14,7 @@ class CommentUseCase {
         return await this._commentRepository.createComment(newComment, threadId, ownerId)
     }
 
-    async deleteCommentById (commentId, threadId, ownerId) {
+    async deleteCommentById (threadId, commentId, ownerId) {
         await this._threadRepository.getThreadById(threadId)
         await this._commentRepository.checkCommentbyOwnerId(commentId, ownerId)
         await this._commentRepository.deleteCommentById(commentId)

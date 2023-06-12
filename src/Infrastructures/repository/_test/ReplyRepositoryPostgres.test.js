@@ -47,7 +47,8 @@ describe('ReplyRepositoryPostgres', () => {
 
                 const addedReply = await replyRepositoryPostgres.createReply(newReply, fakeCommentId, fakeOwnerId)
 
-                const reply = await RepliesTableTestHelper.findReplyById('reply_id-123')
+                const reply = await RepliesTableTestHelper.getReplyById('reply_id-123')
+
                 expect(addedReply).toStrictEqual(new AddedReply({
                     id: 'reply_id-123',
                     owner: fakeOwnerId,
@@ -137,7 +138,7 @@ describe('ReplyRepositoryPostgres', () => {
 
                 const detailReplies = await replyRepositoryPostgres.getRepliesByCommentId(commentId)
 
-                const replies = await RepliesTableTestHelper.findRepliesByCommentId('comment_id-123')
+                const replies = await RepliesTableTestHelper.getRepliesByCommentId('comment_id-123')
                 expect(detailReplies).toEqual(
                     expect.arrayContaining([
                         expect.objectContaining(new DetailReply({

@@ -4,14 +4,15 @@ import pool from '../src/Infrastructures/database/postgres/pool.js'
 const AuthenticationsTableTestHelper = {
     async generateToken (token) {
         const query = {
-            text: 'INSERT INTO authentications VALUES ($1)',
+            text: `INSERT INTO authentications
+                    VALUES ($1)`,
             values: [token]
         }
 
         await pool.query(query)
     },
 
-    async findToken (token) {
+    async getOneToken (token) {
         const query = {
             text: 'SELECT token FROM authentications WHERE token = $1',
             values: [token]

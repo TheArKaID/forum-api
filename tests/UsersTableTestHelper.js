@@ -4,14 +4,15 @@ import pool from '../src/Infrastructures/database/postgres/pool.js'
 const UsersTableTestHelper = {
     async createUser ({ id = 'user_id-123', username = 'dicoding', password = 'secret', fullname = 'Dicoding Indonesia' }) {
         const query = {
-            text: 'INSERT INTO users VALUES($1, $2, $3, $4)',
+            text: `INSERT INTO users
+                    VALUES($1, $2, $3, $4)`,
             values: [id, username, password, fullname]
         }
 
         await pool.query(query)
     },
 
-    async findUsersById (id) {
+    async getUsersById (id) {
         const query = {
             text: 'SELECT * FROM users WHERE id = $1',
             values: [id]

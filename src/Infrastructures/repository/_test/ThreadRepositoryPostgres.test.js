@@ -40,7 +40,7 @@ describe('ThreadRepositoryPostgres', () => {
 
                 const thread = await threadRepositoryPostgres.createThread(newThread, fakeOwnerId)
 
-                const threads = await ThreadsTableTestHelper.findThreadsById('thread_id-123')
+                const threads = await ThreadsTableTestHelper.getThreadsById('thread_id-123')
                 expect(thread).toStrictEqual(new AddedThread({
                     id: 'thread_id-123',
                     owner: fakeOwnerId,
@@ -68,7 +68,7 @@ describe('ThreadRepositoryPostgres', () => {
 
                 const detailThread = await threadRepositoryPostgres.getThreadById(threadId)
 
-                const threads = await ThreadsTableTestHelper.findThreadsById('thread_id-123')
+                const threads = await ThreadsTableTestHelper.getThreadsById('thread_id-123')
                 expect(detailThread).toStrictEqual(new DetailThread({
                     id: threadId,
                     title: 'The Title of the Thread',

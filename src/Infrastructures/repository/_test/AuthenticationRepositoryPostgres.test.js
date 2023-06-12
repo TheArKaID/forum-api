@@ -20,7 +20,7 @@ describe('AuthenticationRepository postgres', () => {
 
             await authenticationRepository.generateToken(token)
 
-            const tokens = await AuthenticationsTableTestHelper.findToken(token)
+            const tokens = await AuthenticationsTableTestHelper.getOneToken(token)
             expect(tokens).toHaveLength(1)
             expect(tokens[0].token).toBe(token)
         })
@@ -51,7 +51,7 @@ describe('AuthenticationRepository postgres', () => {
 
             await authenticationRepository.deleteToken(token)
 
-            const tokens = await AuthenticationsTableTestHelper.findToken(token)
+            const tokens = await AuthenticationsTableTestHelper.getOneToken(token)
             expect(tokens).toHaveLength(0)
         })
     })

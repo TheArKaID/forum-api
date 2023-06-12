@@ -66,7 +66,7 @@ describe('CommentUseCase', () => {
 
         const commentUseCase = new CommentUseCase(mockThreadRepository, mockCommentRepository)
 
-        await commentUseCase.deleteCommentById(fakeCommentId, fakeThreadId, fakeOwnerId)
+        await commentUseCase.deleteCommentById(fakeThreadId, fakeCommentId, fakeOwnerId)
 
         expect(mockThreadRepository.getThreadById).toBeCalledWith(fakeThreadId)
         expect(mockCommentRepository.checkCommentbyOwnerId).toBeCalledWith(fakeCommentId, fakeOwnerId)

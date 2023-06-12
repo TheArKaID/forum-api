@@ -31,7 +31,7 @@ class CommentsHandler {
         const { id: credentialId } = request.auth.credentials
 
         const commentUseCase = this._container.getInstance(CommentUseCase.name)
-        await commentUseCase.deleteCommentById(commentId, threadId, credentialId)
+        await commentUseCase.deleteCommentById(threadId, commentId, credentialId)
 
         const response = h.response({
             status: 'success'

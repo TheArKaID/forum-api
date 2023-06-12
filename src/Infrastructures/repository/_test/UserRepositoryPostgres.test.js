@@ -42,7 +42,7 @@ describe('UserRepositoryPostgres', () => {
 
             await userRepositoryPostgres.createUser(registerUser)
 
-            const users = await UsersTableTestHelper.findUsersById('user_id-123')
+            const users = await UsersTableTestHelper.getUsersById('user_id-123')
             expect(users).toHaveLength(1)
         })
 

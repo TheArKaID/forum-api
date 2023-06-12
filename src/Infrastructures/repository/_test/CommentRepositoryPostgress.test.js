@@ -130,7 +130,7 @@ describe('CommentRepositoryPostgres', () => {
 
                 const detailComments = await commentRepositoryPostgres.getCommentsByThreadId(threadId)
 
-                const comments = await CommentsTableTestHelper.findCommentsByThreadId('thread_id-123')
+                const comments = await CommentsTableTestHelper.getCommentsByThreadId('thread_id-123')
                 expect(detailComments).toEqual(
                     expect.arrayContaining([
                         expect.objectContaining(new DetailComment({

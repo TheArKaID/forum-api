@@ -2,17 +2,25 @@ import { server as _server } from '@hapi/hapi'
 import jwt from '@hapi/jwt'
 import ClientError from '../../Commons/exceptions/ClientError.js'
 import DomainErrorTranslator from '../../Commons/exceptions/DomainErrorTranslator.js'
-
 import users from '../../Interfaces/http/api/users/index.js'
 import authentications from '../../Interfaces/http/api/authentications/index.js'
 import threads from '../../Interfaces/http/api/threads/index.js'
 import comments from '../../Interfaces/http/api/comments/index.js'
 import replies from '../../Interfaces/http/api/replies/index.js'
+import likes from '../../Interfaces/http/api/likeComments/index.js'
 
 const createServer = async (container) => {
     const server = _server({
         host: process.env.HOST,
         port: process.env.PORT
+    })
+
+    server.route({
+        method: 'GET',
+        path: '/',
+        handler: () => ({
+            value: 'Hi Forum API!'
+        })
     })
 
     await server.register([
@@ -56,6 +64,10 @@ const createServer = async (container) => {
         },
         {
             plugin: replies,
+            options: { container }
+        },
+        {
+            plugin: likes,
             options: { container }
         }
     ])
