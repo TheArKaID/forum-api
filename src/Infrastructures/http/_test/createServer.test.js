@@ -33,3 +33,18 @@ describe('HTTP server', () => {
         expect(responseJson.message).toEqual('Server error. Please contact the administrator.')
     })
 })
+
+describe('when GET /', () => {
+    it('should return 200 and say hi', async () => {
+        const server = await createServer({})
+
+        const response = await server.inject({
+            method: 'GET',
+            url: '/'
+        })
+
+        const responseJson = JSON.parse(response.payload)
+        expect(response.statusCode).toEqual(200)
+        expect(responseJson.value).toEqual('Hi Forum API!')
+    })
+})
