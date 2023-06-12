@@ -8,6 +8,7 @@ import ThreadRepository from '../../../Domains/threads/ThreadRepository.js'
 import CommentRepository from '../../../Domains/comments/CommentRepository.js'
 import ReplyRepository from '../../../Domains/replies/ReplyRepository.js'
 import ThreadUseCase from '../ThreadUseCase.js'
+import LikeCommentRepository from '../../../Domains/likeComments/LikeCommentRepository.js'
 
 describe('ThreadUseCase', () => {
     it('should orchestrating the add thread action correctly', async () => {
@@ -73,12 +74,14 @@ describe('ThreadUseCase', () => {
         const mockThreadRepository = new ThreadRepository()
         const mockCommentRepository = new CommentRepository()
         const mockReplyRepository = new ReplyRepository()
+        const mockLikeCommentRepository = new LikeCommentRepository()
 
         mockThreadRepository.getThreadById = jest.fn(() => Promise.resolve(new DetailThread(threadPayload)))
         mockCommentRepository.getCommentsByThreadId = jest.fn(() => Promise.resolve([new DetailComment(commentPayload)]))
         mockReplyRepository.getRepliesByCommentId = jest.fn(() => Promise.resolve([new DetailReply(replyPayload)]))
+        mockLikeCommentRepository.getLikeCountByCommentId = jest.fn(() => Promise.resolve(1))
 
-        const threadUseCase = new ThreadUseCase(mockThreadRepository, mockCommentRepository, mockReplyRepository)
+        const threadUseCase = new ThreadUseCase(mockThreadRepository, mockCommentRepository, mockReplyRepository, mockLikeCommentRepository)
 
         const thread = await threadUseCase.getThreadById(fakeThreadId)
 
@@ -91,6 +94,7 @@ describe('ThreadUseCase', () => {
             comments: [
                 {
                     ...expectedDetailComment[0],
+                    likeCount: 1,
                     replies: expectedDetailReply
                 }
             ]

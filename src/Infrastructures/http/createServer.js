@@ -2,12 +2,12 @@ import { server as _server } from '@hapi/hapi'
 import jwt from '@hapi/jwt'
 import ClientError from '../../Commons/exceptions/ClientError.js'
 import DomainErrorTranslator from '../../Commons/exceptions/DomainErrorTranslator.js'
-
 import users from '../../Interfaces/http/api/users/index.js'
 import authentications from '../../Interfaces/http/api/authentications/index.js'
 import threads from '../../Interfaces/http/api/threads/index.js'
 import comments from '../../Interfaces/http/api/comments/index.js'
 import replies from '../../Interfaces/http/api/replies/index.js'
+import likes from '../../Interfaces/http/api/likeComments/index.js'
 
 const createServer = async (container) => {
     const server = _server({
@@ -15,12 +15,14 @@ const createServer = async (container) => {
         port: process.env.PORT
     })
 
+    // registrasi plugin eksternal
     await server.register([
         {
             plugin: jwt
         }
     ])
 
+    // mendefinisikan strategy autentikasi jwt
     server.auth.strategy('forumapi_jwt', 'jwt', {
         keys: process.env.ACCESS_TOKEN_KEY,
         verify: {
@@ -56,6 +58,10 @@ const createServer = async (container) => {
         },
         {
             plugin: replies,
+            options: { container }
+        },
+        {
+            plugin: likes,
             options: { container }
         }
     ])
